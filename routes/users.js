@@ -1,25 +1,23 @@
 import express from "express";
-import { v4 as uuidv4 } from "uuid";
+import {
+    getUsers,
+    generateUUID,
+    deleteUser,
+    patchUser,
+} from "../controllers/users.js";
 
 const router = express.Router();
 
-const users = [];
+router.get("/", getUsers);
 
-router.get("/users", (req, res) => {
-    console.log(users);
-    res.send(users);
-});
+router.post("/", generateUUID);
 
-router.post("/users", (req, res) => {
-    const user = req.body;
-    const uniqueUserId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-    let userObjectWithId = { ...user, id: uniqueUserId };
+router.delete("/:id", deleteUser);
 
-    users.push(userObjectWithId);
-    console.log(userObjectWithId);
-    res.send(
-        `User with the name ${userObjectWithId.firstName} added to the database!`
-    );
-});
+router.patch("/:id", patchUser);
 
 export default router;
+
+// "firstName":"Jane",
+// "lastName": "Doe",
+// "age": 14
